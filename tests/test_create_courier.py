@@ -15,7 +15,7 @@ class TestCreateCourier:
         with allure.step("Отправляем запрос на создание курьера"):
             response = requests.post(f'{Urls.Yandex_Scooter_URL}{Endpoints.create_courier}', data=courier_data)
         with allure.step("Проверяем успешный статус и ответ от сервера"):
-            assert response.status_code == 201
+            assert response.status_code ==201
             assert response.text == '{"ok":true}'
         with allure.step("Логинимся для получения ID"):
             login_resp = requests.post(f'{Urls.Yandex_Scooter_URL}{Endpoints.login_courier}', data=courier_data)
