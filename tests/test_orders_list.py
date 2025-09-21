@@ -10,5 +10,5 @@ class TestOrdersList:
     @allure.description('Получаем списки заказов и проверяем ответ')
     def test_list_orders_success(self):
         response = requests.get(f'{Urls.Yandex_Scooter_URL}{Endpoints.get_orders_list}')
-        assert response.status_code==200
+        assert response.status_code == 200
         assert "track" in response.text
