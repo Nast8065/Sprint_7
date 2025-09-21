@@ -13,7 +13,7 @@ class TestLoginCourier:
     def test_courier_login_success(self, courier):
         courier_data = courier
         response = Courier().courier_login_in_the_system_and_get_id_courier(courier_data["data"])
-        assert response["status_code"] ==200
+        assert response["status_code"] == 200
         assert response.get("id")
 
     @allure.title('Проверка ошибки при авторизации курьера без заполнения обязательных полей Login/Password')
