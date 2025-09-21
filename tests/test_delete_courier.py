@@ -12,7 +12,6 @@ class TestDeleteCourier:
         assert response["status_code"] ==200
         assert response["response_text"] == '{"ok":true}'
 
-
     @allure.title('Проверка удаления курьера с')
     @allure.description('Отправляем запрос на удаление курьера с несущ.ID и проверяем ответ')
     def test_delete_courier_invalid_id_failed(self):
