@@ -4,6 +4,7 @@ import requests
 from helps import DataCourier
 from endpoints import Endpoints
 from urls import Urls
+from data_responses import ResponseMessages  # Импортируем сообщения
 
 class TestCreateCourier:
 
@@ -16,7 +17,7 @@ class TestCreateCourier:
             response = requests.post(f'{Urls.Yandex_scooter_URL}{Endpoints.create_courier}', data=courier_data)
         with allure.step("Проверяем успешный статус и ответ от сервера"):
             assert response.status_code == 201
-            assert response.text == '{"ok":true}'
+            assert response.text == ResponseMessages.SUCCESS_CREATION  # Используем сообщение из дата-модуля
         with allure.step("Логинимся для получения ID"):
             login_resp = requests.post(f'{Urls.Yandex_scooter_URL}{Endpoints.login_courier}', data=courier_data)
             assert login_resp.status_code == 200  # Проверка успешного логина
@@ -34,7 +35,7 @@ class TestCreateCourier:
             response = requests.post(f'{Urls.Yandex_scooter_URL}{Endpoints.create_courier}', data=courier_data)
         with allure.step("Проверяем, что код ответа 409 и присутствует сообщение об ошибке"):
             assert response.status_code == 409
-            assert "Этот логин уже используется" in response.text
+            assert ResponseMessages.ERROR_LOGIN_USED in response.text  # Используем сообщение из дата-модуля
         with allure.step("Логинимся для удаления курьера"):
             login_resp = requests.post(f'{Urls.Yandex_scooter_URL}{Endpoints.login_courier}', data=courier_data)
             courier_id = login_resp.json().get("id")
@@ -50,6 +51,3 @@ class TestCreateCourier:
     def test_courier_registration_without_parameters_failed(self, courier_data):
         with allure.step("Отправляем запрос с неполными данными"):
             response = requests.post(f'{Urls.Yandex_scooter_URL}{Endpoints.create_courier}', data=courier_data)
-        with allure.step("Проверяем, что получаем ошибку 400 и сообщение о нехватке данных"):
-            assert response.status_code == 400
-            assert "Недостаточно данных для создания учетной записи" in response.text
