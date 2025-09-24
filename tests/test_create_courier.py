@@ -51,3 +51,6 @@ class TestCreateCourier:
     def test_courier_registration_without_parameters_failed(self, courier_data):
         with allure.step("Отправляем запрос с неполными данными"):
             response = requests.post(f'{Urls.Yandex_scooter_URL}{Endpoints.create_courier}', data=courier_data)
+
+        with allure.step("Проверяем ответ на наличие сообщения об ошибке"):
+            assert ResponseMessages.ERROR_LOGIN_USED in response.text  # Проверка на наличие сообщения об ошибке в ответе
