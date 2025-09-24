@@ -1,25 +1,10 @@
 import allure
-import pytest
 import requests
+import pytest
 from helps import DataCourier
+from data_responses import ResponseMessages
 from endpoints import Endpoints
 from urls import Urls
-from data_responses import ResponseMessages
-    
-    # Создаем курьера
-    response = requests.post(f'{Urls.Yandex_scooter_URL}{Endpoints.create_courier}', data=courier_data)
-    assert response.status_code == 201  # Проверяем успешное создание курьера
-
-    # Получаем ID курьера для дальнейшего использования
-    login_resp = requests.post(f'{Urls.Yandex_scooter_URL}{Endpoints.login_courier}', data=courier_data)
-    assert login_resp.status_code == 200  # Проверяем успешный логин
-    courier_id = login_resp.json().get("id")
-
-    yield courier_id  # Возвращаем ID курьера для использования в тестах
-
-    # Удаляем курьера после завершения теста
-    with allure.step("Удаляем курьера"):
-        requests.delete(f'{Urls.Yandex_scooter_URL}{Endpoints.delete_courier}{courier_id}')
 
 class TestCreateCourier:
 
@@ -45,6 +30,7 @@ class TestCreateCourier:
     @allure.description('Отправляем повторный запрос на создание курьера, проверяем ответ и удаляем курьера')
     def test_registration_double_courier_failed(self, courier_fixture):
         courier_data = DataCourier.valid_data_login
+        
         with allure.step("Первый запрос на создание курьера"):
             requests.post(f'{Urls.Yandex_scooter_URL}{Endpoints.create_courier}', data=courier_data)
         with allure.step("Второй запрос на создание курьера с теми же данными"):
@@ -56,7 +42,7 @@ class TestCreateCourier:
     @allure.title('Проверка ошибки при создании курьера без обязательных полей')
     @allure.description('Отправляем запрос без обязательных полей и проверяем ошибку')
     @pytest.mark.parametrize('courier_data', [
-        DataCourier.invalid_data_login_without_login,
+        DataCourier.invalid_data_login_without_login,         
         DataCourier.invalid_data_login_without_password
     ])
     def test_courier_registration_without_parameters_failed(self, courier_data):
