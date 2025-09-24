@@ -7,7 +7,7 @@ from urls import Urls
 
 class CreatingCourier:
     # функция создания курьера с валидными несуществующими данными
-    @step
+    @step("Создание курьера с валидными несуществующими данными")
     @staticmethod
     def creating_courier_fake_data():
         fake = Faker("ru_RU")
@@ -23,7 +23,8 @@ class CreatingCourier:
         return data
 
     # функция создания курьера с не валидными данными без поля "Password"
-    @step
+    @step("Создание курьера с невалидными данными без поля 'Password'")
+    @staticmethod
     @staticmethod
     def creating_courier_invalid_data_without_password_field():
         fake = Faker("ru_RU")
@@ -38,7 +39,7 @@ class CreatingCourier:
         return data
 
     # функция создания курьера с не валидными данными без поля "Login"
-    @step
+    @step("Создание курьера с невалидными данными без поля 'Login'")
     @staticmethod
     def creating_courier_invalid_data_without_login_field():
         fake = Faker("ru_RU")
